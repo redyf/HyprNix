@@ -10,7 +10,8 @@ an executable
 
 -- general
 lvim.log.level = "warn"
-lvim.format_on_save.enabled = false
+lvim.format_on_save.enabled = true
+lvim.format_on_save.timeout = 5000
 lvim.colorscheme = "catppuccin"
 vim.opt.timeoutlen = 10
 vim.opt.ruler = true  -- show line,col at the cursor pos
@@ -91,6 +92,7 @@ lvim.builtin.treesitter.ensure_installed = {
   "rust",
   "java",
   "yaml",
+  "nix"
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
@@ -177,6 +179,12 @@ lvim.builtin.treesitter.highlight.enable = true
 --       "folke/trouble.nvim",
 --      cmd = "TroubleToggle",
 --     },
+     {
+    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+    config = function()
+      require("lsp_lines").setup()
+    end,
+  },
      'andweeb/presence.nvim',
      { "catppuccin/nvim", as = "catppuccin" }
 }
@@ -205,6 +213,11 @@ require("presence"):setup({
     workspace_text      = "Working on %s",            -- Format string rendered when in a git repository (either string or function(project_name: string|nil, filename: string): string)
     line_number_text    = "Line %s out of %s",        -- Format string rendered when `enable_line_number` is set to true (either string or function(line_number: number, line_count: number): string)
 })
+
+-- LSP Lines plugin (keybind = gj)
+-- Disable virtual text
+lvim.lsp.diagnostics.virtual_text = false
+lvim.builtin.which_key.mappings["gj"] = { "<cmd>lua require('lsp_lines').toggle()<cr>", "Toggle LSP lines" }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {
