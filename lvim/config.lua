@@ -191,7 +191,27 @@ lvim.builtin.treesitter.highlight.enable = true
      { "catppuccin/nvim", as = "catppuccin" }
 }
 
-require("presence"):setup {
+require("presence"):setup ({
+    file_assets = {
+        html = { "HTML", "https://avatars.githubusercontent.com/u/70907734?v=4" },
+        css = { "CSS", "https://avatars.githubusercontent.com/u/70907734?v=4" },
+        scss = { "Sass", "https://avatars.githubusercontent.com/u/70907734?v=4" },
+        tailwind = { "Tailwind", "https://avatars.githubusercontent.com/u/70907734?v=4" },
+        js = { "JavaScript", "https://avatars.githubusercontent.com/u/70907734?v=4" },
+        jsx = { "React", "https://avatars.githubusercontent.com/u/70907734?v=4" },
+        tsx = { "React", "https://avatars.githubusercontent.com/u/70907734?v=4" },
+        go = { "Go", "https://avatars.githubusercontent.com/u/70907734?v=4" },
+        lua = { "Lua", "https://avatars.githubusercontent.com/u/70907734?v=4" },
+        py = { "Python", "https://avatars.githubusercontent.com/u/70907734?v=4" },
+        yaml = { "YAML", "https://avatars.githubusercontent.com/u/70907734?v=4" },
+        nix = { "Nix", "https://avatars.githubusercontent.com/u/70907734?v=4" },
+        md = { "Markdown", "https://avatars.githubusercontent.com/u/70907734?v=4" },
+        zsh = { "shell", "https://avatars.githubusercontent.com/u/70907734?v=4" },
+        json = { "JSON", "https://avatars.githubusercontent.com/u/70907734?v=4" },
+        conf = { "Configuration file", "https://avatars.githubusercontent.com/u/70907734?v=4" },
+        config = { "Configuration file", "https://avatars.githubusercontent.com/u/70907734?v=4" },
+        sql = { "SQL", "https://avatars.githubusercontent.com/u/70907734?v=4" },
+    },
         auto_update = true,
         neovim_image_text = "LunarVim",
         main_image = "file",
@@ -201,7 +221,8 @@ require("presence"):setup {
         workspace_text = function()
             return "zzzzzzzz"
         end,
-    } 
+})
+    -- } 
 
 -- LSP Lines plugin (keybind = gj)
 -- Disable virtual text
