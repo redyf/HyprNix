@@ -141,39 +141,78 @@ lvim.builtin.treesitter.highlight.enable = true
 -- end
 
 -- -- set a formatter, this will override the language server formatting capabilities (if it exists)
--- local formatters = require "lvim.lsp.null-ls.formatters"
--- formatters.setup {
---   { command = "black", filetypes = { "python" } },
+ local formatters = require "lvim.lsp.null-ls.formatters"
+ formatters.setup {
+   { command = "black", filetypes = { "python" } },
 --   { command = "isort", filetypes = { "python" } },
---   {
+  -- {
 --     -- each formatter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
---     command = "prettier",
+    -- command = "prettier",
 --     ---@usage arguments to pass to the formatter
 --     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
---     extra_args = { "--print-with", "100" },
+    -- extra_args = { "--print-with", "100" },
 --     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
---     filetypes = { "typescript", "typescriptreact" },
---   },
--- }
+    -- filetypes = { "typescript", "typescriptreact" },
+  -- },
+ }
 
 -- -- set additional linters
--- local linters = require "lvim.lsp.null-ls.linters"
--- linters.setup {
---   { command = "flake8", filetypes = { "python" } },
---   {
+ local linters = require "lvim.lsp.null-ls.linters"
+ linters.setup {
+   { command = "flake8", filetypes = { "python" } },
+  {
 --     -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
---     command = "shellcheck",
+    command = "shellcheck",
 --     ---@usage arguments to pass to the formatter
 --     -- these cannot contain whitespaces, options such as `--line-width 80` become either `{'--line-width', '80'}` or `{'--line-width=80'}`
---     extra_args = { "--severity", "warning" },
---   },
---   {
---     command = "codespell",
+    -- extra_args = { "--severity", "warning" },
+  },
+  {
+    command = "codespell",
 --     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
---     filetypes = { "javascript", "python" },
---   },
--- }
+    filetypes = { "javascript", "python" },
+  },
+ }
 
+-- Python Debugger
+--  local dap = require('dap')
+--  dap.configurations.python = {
+--    {
+--      type = 'python';
+--      request = 'launch';
+--      name = "Launch file";
+--      program = "${file}";
+--      pythonPath = function()
+--        return '/usr/bin/python'
+--      end;
+--    },
+-- }
+local dap = require('dap')
+dap.configurations.python = {
+  {
+    -- The first three options are required by nvim-dap
+    type = 'python'; -- the type here established the link to the adapter definition: `dap.adapters.python`
+    request = 'launch';
+    name = "Launch file";
+
+    -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
+
+    program = "${file}"; -- This configuration will launch the current file if used.
+    pythonPath = function()
+      -- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
+      -- The code below looks for a `venv` or `.venv` folder in the current directly and uses the python within.
+      -- You could adapt this - to for example use the `VIRTUAL_ENV` environment variable.
+      local cwd = vim.fn.getcwd()
+      if vim.fn.executable(cwd .. '/venv/bin/python') == 1 then
+        return cwd .. '/venv/bin/python'
+      elseif vim.fn.executable(cwd .. '/.venv/bin/python') == 1 then
+        return cwd .. '/.venv/bin/python'
+      else
+        return '/usr/bin/python'
+      end
+    end;
+  },
+}
 -- Additional Plugins
  lvim.plugins = {
 --     {
@@ -193,18 +232,18 @@ lvim.builtin.treesitter.highlight.enable = true
 
 require("presence"):setup ({
     file_assets = {
-        html = { "HTML", "https://avatars.githubusercontent.com/u/70907734?v=4" },
-        css = { "CSS", "https://avatars.githubusercontent.com/u/70907734?v=4" },
+        html = { "HTML", "https://icon-library.com/images/html5-icon/html5-icon-13.jpg" },
+        css = { "CSS", "https://logospng.org/download/css-3/logo-css-3-2048.png" },
         scss = { "Sass", "https://avatars.githubusercontent.com/u/70907734?v=4" },
         tailwind = { "Tailwind", "https://avatars.githubusercontent.com/u/70907734?v=4" },
-        js = { "JavaScript", "https://avatars.githubusercontent.com/u/70907734?v=4" },
-        jsx = { "React", "https://avatars.githubusercontent.com/u/70907734?v=4" },
-        tsx = { "React", "https://avatars.githubusercontent.com/u/70907734?v=4" },
+        js = { "JavaScript", "https://1000logos.net/wp-content/uploads/2020/09/JavaScript-Logo-500x313.png" },
+        jsx = { "React", "https://cdn.kinandcarta.com/-/media-assets/images/kincarta/insights/2022/02/react-native/react_hero.png?as=0&iar=0&w=992&rev=61e1dad3af7e465e9544cf8490237772&extension=webp&hash=02C6CCE2CDDAD0216D16A5E26835691F" },
+        tsx = { "React", "https://cdn.kinandcarta.com/-/media-assets/images/kincarta/insights/2022/02/react-native/react_hero.png?as=0&iar=0&w=992&rev=61e1dad3af7e465e9544cf8490237772&extension=webp&hash=02C6CCE2CDDAD0216D16A5E26835691F" },
         go = { "Go", "https://avatars.githubusercontent.com/u/70907734?v=4" },
-        lua = { "Lua", "https://avatars.githubusercontent.com/u/70907734?v=4" },
-        py = { "Python", "https://avatars.githubusercontent.com/u/70907734?v=4" },
+        lua = { "Lua", "lua" },
+        py = { "Python", "https://ih1.redbubble.net/image.1065285617.2173/flat,750x,075,f-pad,750x1000,f8f8f8.u1.jpg" },
         yaml = { "YAML", "https://avatars.githubusercontent.com/u/70907734?v=4" },
-        nix = { "Nix", "https://avatars.githubusercontent.com/u/70907734?v=4" },
+        nix = { "Nix", "https://camo.githubusercontent.com/8c73ac68e6db84a5c58eef328946ba571a92829b3baaa155b7ca5b3521388cc9/68747470733a2f2f692e696d6775722e636f6d2f367146436c41312e706e67" },
         md = { "Markdown", "https://avatars.githubusercontent.com/u/70907734?v=4" },
         zsh = { "shell", "https://avatars.githubusercontent.com/u/70907734?v=4" },
         json = { "JSON", "https://avatars.githubusercontent.com/u/70907734?v=4" },
@@ -214,6 +253,7 @@ require("presence"):setup ({
     },
         auto_update = true,
         neovim_image_text = "LunarVim",
+        -- main_image = "https://static-00.iconduck.com/assets.00/apps-neovim-icon-512x512-w4ecv3uh.png",
         main_image = "file",
         log_level = nil,
         client_id = "793271441293967371",
