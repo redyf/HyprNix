@@ -12,7 +12,8 @@ an executable
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = true
 lvim.format_on_save.timeout = 5000
-lvim.colorscheme = "catppuccin"
+-- lvim.builtin.dap.active = true
+lvim.colorscheme = "oxocarbon"
 vim.opt.timeoutlen = 10
 vim.o.guifont = "JetBrainsMono Nerd Font"
 vim.opt.ruler = true  -- show line,col at the cursor pos
@@ -219,15 +220,21 @@ dap.configurations.python = {
 --       "folke/trouble.nvim",
 --      cmd = "TroubleToggle",
 --     },
+  --
      {
-    "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-    config = function()
-      require("lsp_lines").setup()
+      "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+      config = function()
+        require("lsp_lines").setup()
     end,
   },
-  "norcalli/nvim-colorizer.lua",
-     'andweeb/presence.nvim',
-     { "catppuccin/nvim", as = "catppuccin" }
+
+      "norcalli/nvim-colorizer.lua",
+
+      "andweeb/presence.nvim",
+
+    { "catppuccin/nvim", as = "catppuccin" },
+
+    { "nyoom-engineering/oxocarbon.nvim"  }
 }
 
 require("presence"):setup ({
@@ -240,7 +247,7 @@ require("presence"):setup ({
         jsx = { "React", "https://cdn.kinandcarta.com/-/media-assets/images/kincarta/insights/2022/02/react-native/react_hero.png?as=0&iar=0&w=992&rev=61e1dad3af7e465e9544cf8490237772&extension=webp&hash=02C6CCE2CDDAD0216D16A5E26835691F" },
         tsx = { "React", "https://cdn.kinandcarta.com/-/media-assets/images/kincarta/insights/2022/02/react-native/react_hero.png?as=0&iar=0&w=992&rev=61e1dad3af7e465e9544cf8490237772&extension=webp&hash=02C6CCE2CDDAD0216D16A5E26835691F" },
         go = { "Go", "https://avatars.githubusercontent.com/u/70907734?v=4" },
-        lua = { "Lua", "lua" },
+        lua = { "Lua", "https://blog.oat.zone/content/images/2022/04/lua.png" },
         py = { "Python", "https://ih1.redbubble.net/image.1065285617.2173/flat,750x,075,f-pad,750x1000,f8f8f8.u1.jpg" },
         yaml = { "YAML", "https://avatars.githubusercontent.com/u/70907734?v=4" },
         nix = { "Nix", "https://camo.githubusercontent.com/8c73ac68e6db84a5c58eef328946ba571a92829b3baaa155b7ca5b3521388cc9/68747470733a2f2f692e696d6775722e636f6d2f367146436c41312e706e67" },
@@ -257,9 +264,9 @@ require("presence"):setup ({
         main_image = "file",
         log_level = nil,
         client_id = "793271441293967371",
-        show_time = false,
+        show_time = true,
         workspace_text = function()
-            return "zzzzzzzz"
+            return "ssssssss"
         end,
 })
     -- } 
