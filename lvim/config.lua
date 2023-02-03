@@ -12,10 +12,12 @@ an executable
 lvim.log.level = "warn"
 lvim.format_on_save.enabled = true
 lvim.format_on_save.timeout = 5000
--- lvim.builtin.dap.active = true
 lvim.colorscheme = "oxocarbon"
 vim.opt.timeoutlen = 10
 vim.o.guifont = "JetBrainsMono Nerd Font"
+-- vim.opt.guicursor = 'a:ver10' --  set cursor of normal mode as beam.
+vim.opt.guicursor = 'a:block' --  set cursor of normal mode as block.
+
 vim.opt.ruler = true  -- show line,col at the cursor pos
 vim.opt.relativenumber    = true
 vim.opt.number            = true
@@ -160,7 +162,7 @@ lvim.builtin.treesitter.highlight.enable = true
 -- -- set additional linters
  local linters = require "lvim.lsp.null-ls.linters"
  linters.setup {
-   { command = "flake8", filetypes = { "python" } },
+   { command = "flake8", filetypes = { "python" }, extra_args = { "--ignore", "E501" } },
   {
 --     -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
     command = "shellcheck",
@@ -174,6 +176,7 @@ lvim.builtin.treesitter.highlight.enable = true
     filetypes = { "javascript", "python" },
   },
  }
+
 
 -- Python Debugger
 --  local dap = require('dap')
@@ -221,12 +224,12 @@ dap.configurations.python = {
 --      cmd = "TroubleToggle",
 --     },
   --
-     {
-      "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-      config = function()
-        require("lsp_lines").setup()
-    end,
-  },
+  --    {
+  --     "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+  --     config = function()
+  --       require("lsp_lines").setup()
+  --   end,
+  -- },
 
       "norcalli/nvim-colorizer.lua",
 
@@ -265,16 +268,16 @@ require("presence"):setup ({
         log_level = nil,
         client_id = "793271441293967371",
         show_time = true,
-        workspace_text = function()
-            return "ssssssss"
-        end,
+        -- workspace_text = function()
+        --     return "ssssssss"
+        -- end,
 })
     -- } 
 
 -- LSP Lines plugin (keybind = gj)
 -- Disable virtual text
-lvim.lsp.diagnostics.virtual_text = false
-lvim.builtin.which_key.mappings["gj"] = { "<cmd>lua require('lsp_lines').toggle()<cr>", "Toggle LSP lines" }
+-- lvim.lsp.diagnostics.virtual_text = false
+-- lvim.builtin.which_key.mappings["gj"] = { "<cmd>lua require('lsp_lines').toggle()<cr>", "Toggle LSP lines" }
 
 -- Nvim-Colorizer Plugin
   require 'colorizer'.setup()
