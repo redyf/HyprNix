@@ -24,8 +24,11 @@ vim.opt.linebreak         = true      -- do not break words on line wrap
 
 -- Neovide
 vim.o.guifont = "CaskaydiaCove Nerd Font:h12"
+vim.g.neovide_hide_mouse_when_typing = true
 vim.g.neovide_refresh_rate = 165
 vim.g.neovide_refresh_rate_idle = 5 
+vim.g.neovide_cursor_vfx_mode = "railgun"
+vim.g.neovide_fullscreen = false 
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
