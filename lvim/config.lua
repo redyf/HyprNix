@@ -1,10 +1,5 @@
 --[[
 lvim is the global options object
-
-Linters should be
-filled in as strings with either
-a global executable or a path to
-an executable
 ]]
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 
@@ -14,10 +9,8 @@ lvim.format_on_save.enabled = true
 lvim.format_on_save.timeout = 5000
 lvim.colorscheme = "oxocarbon"
 vim.opt.timeoutlen = 10
-vim.o.guifont = "JetBrainsMono Nerd Font"
 -- vim.opt.guicursor = 'a:ver10' --  set cursor of normal mode as beam.
 vim.opt.guicursor = 'a:block' --  set cursor of normal mode as block.
-
 vim.opt.ruler = true  -- show line,col at the cursor pos
 vim.opt.relativenumber    = true
 vim.opt.number            = true
@@ -28,6 +21,11 @@ vim.opt.breakindent       = true      -- start wrapped lines indented
 vim.opt.linebreak         = true      -- do not break words on line wrap
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
+
+-- Neovide
+vim.o.guifont = "CaskaydiaCove Nerd Font:h12"
+vim.g.neovide_refresh_rate = 165
+vim.g.neovide_refresh_rate_idle = 5 
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
