@@ -23,12 +23,12 @@ vim.opt.linebreak         = true      -- do not break words on line wrap
 -- lvim.use_icons = false
 
 -- Neovide
-vim.o.guifont = "CaskaydiaCove Nerd Font:h12"
+vim.o.guifont = "CaskaydiaCove Nerd Font:h13:b"
 vim.g.neovide_hide_mouse_when_typing = true
 vim.g.neovide_refresh_rate = 165
-vim.g.neovide_refresh_rate_idle = 5 
 vim.g.neovide_cursor_vfx_mode = "railgun"
-vim.g.neovide_fullscreen = false 
+-- vim.g.neovide_refresh_rate_idle = 5 -- This might not have an effect on every platform (e.g. Wayland). 
+-- vim.g.neovide_fullscreen = false 
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
@@ -163,7 +163,7 @@ lvim.builtin.treesitter.highlight.enable = true
 -- -- set additional linters
  local linters = require "lvim.lsp.null-ls.linters"
  linters.setup {
-   { command = "flake8", filetypes = { "python" }, extra_args = { "--ignore", "E501" } },
+   { command = "flake8", filetypes = { "python" }, extra_args = { "--ignore", "E501, E275, F841" } },
   {
 --     -- each linter accepts a list of options identical to https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md#Configuration
     command = "shellcheck",
@@ -247,7 +247,7 @@ require("presence"):setup ({
         css = { "CSS", "https://logospng.org/download/css-3/logo-css-3-2048.png" },
         scss = { "Sass", "https://avatars.githubusercontent.com/u/70907734?v=4" },
         tailwind = { "Tailwind", "https://avatars.githubusercontent.com/u/70907734?v=4" },
-        js = { "JavaScript", "https://1000logos.net/wp-content/uploads/2020/09/JavaScript-Logo-500x313.png" },
+        js = { "JavaScript", "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/2048px-Unofficial_JavaScript_logo_2.svg.png" },
         jsx = { "React", "https://cdn.kinandcarta.com/-/media-assets/images/kincarta/insights/2022/02/react-native/react_hero.png?as=0&iar=0&w=992&rev=61e1dad3af7e465e9544cf8490237772&extension=webp&hash=02C6CCE2CDDAD0216D16A5E26835691F" },
         tsx = { "React", "https://cdn.kinandcarta.com/-/media-assets/images/kincarta/insights/2022/02/react-native/react_hero.png?as=0&iar=0&w=992&rev=61e1dad3af7e465e9544cf8490237772&extension=webp&hash=02C6CCE2CDDAD0216D16A5E26835691F" },
         go = { "Go", "https://avatars.githubusercontent.com/u/70907734?v=4" },
@@ -269,9 +269,9 @@ require("presence"):setup ({
         log_level = nil,
         client_id = "793271441293967371",
         show_time = true,
-        -- workspace_text = function()
-        --     return "ssssssss"
-        -- end,
+        workspace_text = function()
+            return "ssssssss"
+        end,
 })
     -- } 
 
