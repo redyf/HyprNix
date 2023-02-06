@@ -19,6 +19,63 @@ vim.opt.signcolumn        = 'yes'     -- Show sign column as first column
 vim.opt.wrap              = true      -- wrap long lines
 vim.opt.breakindent       = true      -- start wrapped lines indented
 vim.opt.linebreak         = true      -- do not break words on line wrap
+
+    -- local dap = require('dap')
+    -- dap.configurations.python = {
+    --   {
+    --     type = 'python';
+    --     request = 'launch';
+    --     name = "Launch file";
+    --     program = "${file}";
+    --     pythonPath = function()
+    --       -- return '/usr/bin/python'
+    --       return '~/.nix-profile/bin/python'
+    --     end;
+    --   },
+    -- }
+
+local dap = require('dap')
+  dap.adapters.python = {
+    type = 'executable';
+    command = os.getenv('HOME') .. '/.virtualenvs/debugpy/bin/python';
+    args = { '-m', 'debugpy.adapter' };
+  }
+
+-- local dap = require('dap')
+-- dap.adapters.python = {
+--   type = 'executable';
+--   command = '~/.virtualenvs/debugpy/bin/python';
+--   args = { '-m', 'debugpy.adapter' };
+-- }
+
+local dap = require('dap')
+dap.configurations.python = {
+  {
+    -- The first three options are required by nvim-dap
+    type = 'python'; -- the type here established the link to the adapter definition: `dap.adapters.python`
+    request = 'launch';
+    name = "Launch file";
+
+    -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
+
+    program = "${file}"; -- This configuration will launch the current file if used.
+    pythonPath = function()
+      -- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
+      -- The code below looks for a `venv` or `.venv` folder in the current directly and uses the python within.
+      -- You could adapt this - to for example use the `VIRTUAL_ENV` environment variable.
+      local cwd = vim.fn.getcwd()
+      if vim.fn.executable(cwd .. '/venv/bin/python') == 1 then
+        return cwd .. '/venv/bin/python'
+      elseif vim.fn.executable(cwd .. '/.venv/bin/python') == 1 then
+        return cwd .. '/.venv/bin/python'
+      else
+        -- return '/usr/bin/python'
+        return '/home/redyf/.nix-profile/bin/python'
+      end
+    end;
+  },
+}
+
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -178,46 +235,6 @@ lvim.builtin.treesitter.highlight.enable = true
   },
  }
 
-
--- Python Debugger
---  local dap = require('dap')
---  dap.configurations.python = {
---    {
---      type = 'python';
---      request = 'launch';
---      name = "Launch file";
---      program = "${file}";
---      pythonPath = function()
---        return '/usr/bin/python'
---      end;
---    },
--- }
-local dap = require('dap')
-dap.configurations.python = {
-  {
-    -- The first three options are required by nvim-dap
-    type = 'python'; -- the type here established the link to the adapter definition: `dap.adapters.python`
-    request = 'launch';
-    name = "Launch file";
-
-    -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
-
-    program = "${file}"; -- This configuration will launch the current file if used.
-    pythonPath = function()
-      -- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
-      -- The code below looks for a `venv` or `.venv` folder in the current directly and uses the python within.
-      -- You could adapt this - to for example use the `VIRTUAL_ENV` environment variable.
-      local cwd = vim.fn.getcwd()
-      if vim.fn.executable(cwd .. '/venv/bin/python') == 1 then
-        return cwd .. '/venv/bin/python'
-      elseif vim.fn.executable(cwd .. '/.venv/bin/python') == 1 then
-        return cwd .. '/.venv/bin/python'
-      else
-        return '/usr/bin/python'
-      end
-    end;
-  },
-}
 -- Additional Plugins
  lvim.plugins = {
 --     {
@@ -238,7 +255,8 @@ dap.configurations.python = {
 
     { "catppuccin/nvim", as = "catppuccin" },
 
-    { "nyoom-engineering/oxocarbon.nvim"  }
+    { "nyoom-engineering/oxocarbon.nvim"  },
+      'mfussenegger/nvim-dap-python'
 }
 
 require("presence"):setup ({
