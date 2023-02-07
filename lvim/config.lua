@@ -1,5 +1,6 @@
 -- Neovide
-vim.o.guifont = "CaskaydiaCove Nerd Font:h13:b"
+-- vim.o.guifont = "CaskaydiaCove Nerd Font:h13:b"
+vim.o.guifont = "JetBrainsMono Nerd Font:h13:b"
 vim.g.neovide_hide_mouse_when_typing = true
 vim.g.neovide_refresh_rate = 165
 vim.g.neovide_cursor_vfx_mode = "railgun"
@@ -114,6 +115,18 @@ local dap = require('dap')
     command = os.getenv('HOME') .. '/.virtualenvs/debugpy/bin/python';
     args = { '-m', 'debugpy.adapter' };
   }
+    local dap = require('dap')
+ dap.configurations.python = {
+   {
+     type = 'python';
+     request = 'launch';
+     name = "Launch file";
+     program = "${file}";
+     pythonPath = function()
+       return '/home/redyf/.nix-profile/bin/python'
+     end;
+   },
+}
 
 -- local dap = require('dap')
 -- dap.configurations.python = {
