@@ -43,7 +43,7 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 
 -- -- Change theme settings
-lvim.colorscheme = "lunar"
+lvim.colorscheme = "shado"
 
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
@@ -159,20 +159,17 @@ local dap = require('dap')
 
 -- Additional Plugins <https://www.lunarvim.org/docs/plugins#user-plugins>
 lvim.plugins = {
-    -- {
-    --   "folke/trouble.nvim",
-    --  cmd = "TroubleToggle",
-    -- },
-
     -- { "catppuccin/nvim", as = "catppuccin" },
 
-      "norcalli/nvim-colorizer.lua",
+    {  "norcalli/nvim-colorizer.lua"  },
 
-      "andweeb/presence.nvim",
+    {  "andweeb/presence.nvim"  },
 
-    { "nyoom-engineering/oxocarbon.nvim"  },
+    {  "nyoom-engineering/oxocarbon.nvim"  },
 
-      'mfussenegger/nvim-dap-python'
+    {  'mfussenegger/nvim-dap-python'  },
+
+    {  'Shadorain/shadotheme'  }
 }
 
 require("presence"):setup ({
