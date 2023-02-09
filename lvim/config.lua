@@ -8,8 +8,8 @@ vim.g.neovide_cursor_vfx_mode = "railgun"
 -- vim.g.neovide_fullscreen = false 
 
 -- vim options
-vim.opt.shiftwidth = 4
-vim.opt.tabstop = 4
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
 vim.opt.relativenumber = true
 vim.opt.timeoutlen = 10
 -- vim.opt.guicursor = 'a:ver10' --  set cursor of normal mode as beam.
@@ -43,23 +43,26 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 
 -- -- Change theme settings
-lvim.colorscheme = "shado"
+lvim.colorscheme = "lunar"
 
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
+lvim.builtin.lualine.style = "default"
 
 -- Automatically install missing parsers when entering buffer
 lvim.builtin.treesitter.auto_install = true
+lvim.lsp.automatic_configuration.skipped_servers = { "nil_ls","pyre", "jedi_language_server", "pylsp", "ruff_lsp", "sourcery", "cssmodules_ls", "denols", "ember", "eslint", "glint", "quick_lint_js", "rome", "stylelint_lsp", "vtsls" }
 
--- lvim.builtin.treesitter.ignore_install = { "haskell" }
+lvim.builtin.treesitter.ignore_install = { "haskell" }
 
 -- -- generic LSP settings <https://www.lunarvim.org/docs/languages#lsp-support>
 
 -- --- disable automatic installation of servers
 -- lvim.lsp.installer.setup.automatic_installation = false
+-- lvim.lsp.installer.setup.ensure_installed = {"pyright", "rnix", "jsonls", "yamlls", "bashls"}
 
 -- ---configure a server manually. IMPORTANT: Requires `:LvimCacheReset` to take effect
 -- ---see the full default list `:lua =lvim.lsp.automatic_configuration.skipped_servers`
@@ -86,9 +89,9 @@ lvim.builtin.treesitter.auto_install = true
 -- -- linters and formatters <https://www.lunarvim.org/docs/languages#lintingformatting>
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-  { command = "stylua" },
-
-  { command = "black", filetypes = { "python" } },
+    { command = "black" },
+    -- { command = "black", filetypes = { "python" } },
+    -- { command = "isort", filetypes = { "python" } },
   {
     command = "prettierd",
     extra_args = { "--print-width", "100" },
@@ -109,53 +112,59 @@ linters.setup {
   },
 }
 
+local code_actions = require "lvim.lsp.null-ls.code_actions"
+code_actions.setup {
+  {
+    command = "proselint"
+  },
+}
+
 local dap = require('dap')
   dap.adapters.python = {
     type = 'executable';
     command = os.getenv('HOME') .. '/.virtualenvs/debugpy/bin/python';
     args = { '-m', 'debugpy.adapter' };
   }
-    local dap = require('dap')
- dap.configurations.python = {
-   {
-     type = 'python';
-     request = 'launch';
-     name = "Launch file";
-     program = "${file}";
-     pythonPath = function()
-       return '/home/redyf/.nix-profile/bin/python'
-     end;
-   },
-}
-
--- local dap = require('dap')
--- dap.configurations.python = {
---   {
---     -- The first three options are required by nvim-dap
---     type = 'python'; -- the type here established the link to the adapter definition: `dap.adapters.python`
---     request = 'launch';
---     name = "Launch file";
-
---     -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
-
---     program = "${file}"; -- This configuration will launch the current file if used.
---     pythonPath = function()
---       -- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
---       -- The code below looks for a `venv` or `.venv` folder in the current directly and uses the python within.
---       -- You could adapt this - to for example use the `VIRTUAL_ENV` environment variable.
---       local cwd = vim.fn.getcwd()
---       if vim.fn.executable(cwd .. '/venv/bin/python') == 1 then
---         return cwd .. '/venv/bin/python'
---       elseif vim.fn.executable(cwd .. '/.venv/bin/python') == 1 then
---         return cwd .. '/.venv/bin/python'
---       else
---         -- return '/usr/bin/python'
---         return '/home/redyf/.nix-profile/bin/python'
---       end
---     end;
---   },
+--     local dap = require('dap')
+--  dap.configurations.python = {
+--    {
+--      type = 'python';
+--      request = 'launch';
+--      name = "Launch file";
+--      program = "${file}";
+--      pythonPath = function()
+--        return '/home/redyf/.nix-profile/bin/python'
+--      end;
+--    },
 -- }
 
+local dap = require('dap')
+dap.configurations.python = {
+  {
+    -- The first three options are required by nvim-dap
+    type = 'python'; -- the type here established the link to the adapter definition: `dap.adapters.python`
+    request = 'launch';
+    name = "Launch file";
+
+    -- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
+
+    program = "${file}"; -- This configuration will launch the current file if used.
+    pythonPath = function()
+      -- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
+      -- The code below looks for a `venv` or `.venv` folder in the current directly and uses the python within.
+      -- You could adapt this - to for example use the `VIRTUAL_ENV` environment variable.
+      local cwd = vim.fn.getcwd()
+      if vim.fn.executable(cwd .. '/venv/bin/python') == 1 then
+        return cwd .. '/venv/bin/python'
+      elseif vim.fn.executable(cwd .. '/.venv/bin/python') == 1 then
+        return cwd .. '/.venv/bin/python'
+      else
+        -- return '/usr/bin/python'
+        return '/home/redyf/.nix-profile/bin/python'
+      end
+    end;
+  },
+}
 
 -- Additional Plugins <https://www.lunarvim.org/docs/plugins#user-plugins>
 lvim.plugins = {
@@ -170,6 +179,7 @@ lvim.plugins = {
     {  'mfussenegger/nvim-dap-python'  },
 
     {  'Shadorain/shadotheme'  }
+
 }
 
 require("presence"):setup ({
