@@ -1,11 +1,11 @@
 -- Neovide
 -- vim.o.guifont = "CaskaydiaCove Nerd Font:h13:b"
-vim.o.guifont = "JetBrainsMono Nerd Font:h13:b"
+-- vim.g.neovide_refresh_rate_idle = 5 -- This might not have an effect on every platform (e.g. Wayland). 
+-- vim.g.neovide_fullscreen = false
+vim.o.guifont = "JetBrainsMono Nerd Font:h12:b"
 vim.g.neovide_hide_mouse_when_typing = true
 vim.g.neovide_refresh_rate = 165
 vim.g.neovide_cursor_vfx_mode = "railgun"
--- vim.g.neovide_refresh_rate_idle = 5 -- This might not have an effect on every platform (e.g. Wayland). 
--- vim.g.neovide_fullscreen = false 
 
 -- vim options
 vim.opt.shiftwidth = 2
@@ -27,9 +27,12 @@ vim.opt.linebreak         = true      -- do not break words on line wrap
 lvim.log.level = "info"
 lvim.format_on_save = {
   enabled = true,
-  pattern = "*.lua",
+  -- pattern = "*.lua",
   timeout = 1000,
 }
+lvim.builtin.telescope.defaults.path_display = { shorten = 5 }
+-- to disable icons and use a minimalist setup, uncomment the following
+-- lvim.use_icons = false
 
 lvim.leader = "space"
 -- add your own keymapping
@@ -42,9 +45,7 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- lvim.builtin.which_key.mappings["W"] = { "<cmd>noautocmd w<cr>", "Save without formatting" }
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 
--- -- Change theme settings
 lvim.colorscheme = "lunar"
-
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.terminal.active = true
@@ -54,15 +55,11 @@ lvim.builtin.lualine.style = "default"
 
 -- Automatically install missing parsers when entering buffer
 lvim.builtin.treesitter.auto_install = true
-lvim.lsp.automatic_configuration.skipped_servers = { "nil_ls","pyre", "jedi_language_server", "pylsp", "ruff_lsp", "sourcery", "cssmodules_ls", "denols", "ember", "eslint", "glint", "quick_lint_js", "rome", "stylelint_lsp", "vtsls" }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 
--- -- generic LSP settings <https://www.lunarvim.org/docs/languages#lsp-support>
-
--- --- disable automatic installation of servers
 -- lvim.lsp.installer.setup.automatic_installation = false
--- lvim.lsp.installer.setup.ensure_installed = {"pyright", "rnix", "jsonls", "yamlls", "bashls"}
+lvim.lsp.automatic_configuration.skipped_servers = { "nil_ls","pyre", "jedi_language_server", "pylsp", "ruff_lsp", "sourcery", "cssmodules_ls", "denols", "ember", "eslint", "glint", "quick_lint_js", "rome", "stylelint_lsp", "vtsls" }
 
 -- ---configure a server manually. IMPORTANT: Requires `:LvimCacheReset` to take effect
 -- ---see the full default list `:lua =lvim.lsp.automatic_configuration.skipped_servers`
@@ -86,19 +83,16 @@ lvim.builtin.treesitter.ignore_install = { "haskell" }
 --   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 -- end
 
--- -- linters and formatters <https://www.lunarvim.org/docs/languages#lintingformatting>
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-    { command = "black" },
-    -- { command = "black", filetypes = { "python" } },
-    -- { command = "isort", filetypes = { "python" } },
+  { command = "stylua", filetypes = { "lua" } },
+  { command = "black", filetypes = { "python" } },
   {
-    command = "prettierd",
+    command = "prettier",
     extra_args = { "--print-width", "100" },
     filetypes = { "typescript", "typescriptreact" },
   },
 }
-
 local linters = require "lvim.lsp.null-ls.linters"
 linters.setup {
   { command = "flake8", filetypes = { "python" }, extra_args = { "--ignore", "E501, E275, F841" } },
@@ -106,37 +100,20 @@ linters.setup {
     command = "shellcheck",
     args = { "--severity", "warning" },
   },
-  {
-    command = "codespell",
-    filetypes = { "javascript", "python" },
-  },
-}
+  -- {
+  --   command = "codespell",
+  --   filetypes = { "javascript", "python" },
+  -- },
+  { command = "luacheck", filetypes = { "lua" }, extra_args = { "--ignore", "112, 631"}}, -- , extra_args = { "--ignore", "631"} 
 
-local code_actions = require "lvim.lsp.null-ls.code_actions"
-code_actions.setup {
-  {
-    command = "proselint"
-  },
 }
-
-local dap = require('dap')
-  dap.adapters.python = {
-    type = 'executable';
-    command = os.getenv('HOME') .. '/.virtualenvs/debugpy/bin/python';
-    args = { '-m', 'debugpy.adapter' };
-  }
---     local dap = require('dap')
---  dap.configurations.python = {
---    {
---      type = 'python';
---      request = 'launch';
---      name = "Launch file";
---      program = "${file}";
---      pythonPath = function()
---        return '/home/redyf/.nix-profile/bin/python'
---      end;
---    },
--- }
+-- Original, teste para ver se o erro loop.lua continua (null-ls)
+-- local dap = require('dap')
+--   dap.adapters.python = {
+--     type = 'executable';
+--     command = os.getenv('HOME') .. '/.virtualenvs/debugpy/bin/python';
+--     args = { '-m', 'debugpy.adapter' };
+--   }
 
 local dap = require('dap')
 dap.configurations.python = {
@@ -159,16 +136,21 @@ dap.configurations.python = {
       elseif vim.fn.executable(cwd .. '/.venv/bin/python') == 1 then
         return cwd .. '/.venv/bin/python'
       else
-        -- return '/usr/bin/python'
         return '/home/redyf/.nix-profile/bin/python'
       end
     end;
   },
 }
+  dap.adapters.python = {
+    type = 'executable';
+    command = os.getenv('HOME') .. '/.virtualenvs/debugpy/bin/python';
+    args = { '-m', 'debugpy.adapter' };
+  }
 
--- Additional Plugins <https://www.lunarvim.org/docs/plugins#user-plugins>
+
 lvim.plugins = {
-    -- { "catppuccin/nvim", as = "catppuccin" },
+
+    { "catppuccin/nvim", name = "catppuccin" },
 
     {  "norcalli/nvim-colorizer.lua"  },
 
@@ -218,7 +200,6 @@ require("presence"):setup ({
 -- Nvim-Colorizer Plugin
   require 'colorizer'.setup()
 
--- }
 -- -- Autocommands (`:help autocmd`) <https://neovim.io/doc/user/autocmd.html>
 -- vim.api.nvim_create_autocmd("FileType", {
 --   pattern = "zsh",
