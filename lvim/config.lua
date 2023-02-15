@@ -2,7 +2,8 @@
 -- vim.o.guifont = "CaskaydiaCove Nerd Font:h13:b"
 -- vim.g.neovide_refresh_rate_idle = 5 -- This might not have an effect on every platform (e.g. Wayland). 
 -- vim.g.neovide_fullscreen = false
-vim.o.guifont = "JetBrainsMono Nerd Font:h12:b"
+-- vim.o.guifont = "JetBrainsMono Nerd Font:h12:b"
+vim.o.guifont = "FiraCode Nerd Font:h12:b"
 vim.g.neovide_hide_mouse_when_typing = true
 vim.g.neovide_refresh_rate = 165
 vim.g.neovide_cursor_vfx_mode = "railgun"
@@ -85,7 +86,7 @@ lvim.lsp.automatic_configuration.skipped_servers = { "nil_ls","pyre", "jedi_lang
 
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
-  { command = "stylua", filetypes = { "lua" } },
+  -- { command = "stylua", filetypes = { "lua" } },
   { command = "black", filetypes = { "python" } },
   {
     command = "prettier",
@@ -160,7 +161,7 @@ lvim.plugins = {
 
     {  'mfussenegger/nvim-dap-python'  },
 
-    {  'Shadorain/shadotheme'  }
+    {  'Shadorain/shadotheme'  },
 
 }
 
