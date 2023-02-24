@@ -3,18 +3,24 @@
 -- vim.g.neovide_refresh_rate_idle = 5 -- This might not have an effect on every platform (e.g. Wayland). 
 -- vim.g.neovide_fullscreen = false
 -- vim.o.guifont = "JetBrainsMono Nerd Font:h12:b"
-vim.o.guifont = "FiraCode Nerd Font:h16:b"
-vim.g.neovide_hide_mouse_when_typing = true
+-- vim.o.guifont = "FiraCode Nerd Font:h15:b"
+vim.o.guifont = "BlexMono Nerd Font Mono:h16:b"
+-- vim.g.neovide_hide_mouse_when_typing = true
 vim.g.neovide_refresh_rate = 165
-vim.g.neovide_cursor_vfx_mode = "railgun"
+vim.g.neovide_cursor_vfx_mode = "ripple"
+vim.g.neovide_cursor_animate_command_line = true
+vim.g.neovide_cursor_animate_in_insert_mode = true
+vim.g.neovide_cursor_vfx_particle_lifetime = 5.0
+vim.g.neovide_cursor_vfx_particle_density = 14.0
+vim.g.neovide_cursor_vfx_particle_speed = 12.0
 
 -- vim options
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.relativenumber = true
 vim.opt.timeoutlen = 10
--- vim.opt.guicursor = 'a:ver10' --  set cursor of normal mode as beam.
-vim.opt.guicursor = 'a:block' --  set cursor of normal mode as block for all modes.
+vim.opt.guicursor = 'n:ver100' --  set cursor of normal mode as beam, change the number to select the width of the cursor.
+-- vim.opt.guicursor = 'a:block' --  set cursor of normal mode as block for all modes.
 vim.opt.ruler = true -- show line,col at the cursor pos
 vim.opt.relativenumber = true
 vim.opt.number = true
@@ -46,13 +52,13 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- lvim.builtin.which_key.mappings["W"] = { "<cmd>noautocmd w<cr>", "Save without formatting" }
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 
-lvim.colorscheme = "catppuccin-macchiato"
+lvim.colorscheme = 'oxocarbon' -- 'oh-lucy' and 'oh-lucy-evening'
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
-lvim.builtin.lualine.style = "default"
+lvim.builtin.lualine.style = "lvim"
 lvim.builtin.terminal.open_mapping = "<C-t>"
 
 -- Automatically install missing parsers when entering buffer
@@ -91,6 +97,7 @@ lvim.lsp.automatic_configuration.skipped_servers = {
 
 local formatters = require "lvim.lsp.null-ls.formatters"
 formatters.setup {
+    {command = "zprint", filetypes = {"clojure"}},
     {command = "lua_format", filetypes = {"lua"}},
     {command = "black", filetypes = {"python"}}, {
         command = "prettier",
@@ -108,13 +115,47 @@ linters.setup {
     --   command = "codespell",
     --   filetypes = { "javascript", "python" },
     -- },
+    -- {
+    --     command = "luacheck",
+    --     filetypes = {"lua"},
+    --     extra_args = {"--ignore", "112, 631"}
+    -- },
     {
-        command = "luacheck",
-        filetypes = {"lua"},
-        extra_args = {"--ignore", "112, 631"}
-    }
-    -- {command = "selene", filetypes = {"lua"}}
+        command = "clj_kondo",
+        filetypes = {"clojure"}
+        -- extra_args = {"--ignore", "112, 631"}
+    }, {command = "selene", filetypes = {"lua"}}
 }
+
+-- Enable LSP
+require'lspconfig'.clojure_lsp.setup {
+    command = "/home/redyf/.nix-profile/bin/clojure-lsp",
+    filetypes = {"clojure", "edn"}
+}
+require'lspconfig'.elixirls.setup {
+    cmd = {"/home/redyf/elixir/lol/language_server.sh"},
+    filetypes = {"elixir", "eelixir", "heex", "surface"}
+}
+
+local dap = require('dap')
+dap.configurations.elixir = {
+    {
+        type = "mix_task",
+        name = "mix test",
+        task = 'test',
+        taskArgs = {"--trace"},
+        request = "launch",
+        startApps = true, -- for Phoenix projects
+        projectDir = "${workspaceFolder}",
+        requireFiles = {"test/**/test_helper.exs", "test/**/*_test.exs"}
+    }
+}
+dap.adapters.mix_task = {
+    type = 'executable',
+    command = '/home/redyf/elixir/lol/debugger.sh', -- debugger.bat for windows
+    args = {}
+}
+
 -- Original, teste para ver se o erro loop.lua continua (null-ls)
 -- local dap = require('dap')
 --   dap.adapters.python = {
@@ -161,7 +202,9 @@ lvim.plugins = {
 
     {"andweeb/presence.nvim"}, {"mfussenegger/nvim-dap-python"},
 
-    {"Shadorain/shadotheme"}, {'ThePrimeagen/vim-be-good'}
+    {'ThePrimeagen/vim-be-good'}, {'nyoom-engineering/oxocarbon.nvim'},
+    {'Yazeed1s/oh-lucy.nvim'}, {'Olical/conjure'}, {'tpope/vim-dispatch'},
+    {'clojure-vim/vim-jack-in'}, {'radenling/vim-dispatch-neovim'}
 
 }
 
