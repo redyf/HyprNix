@@ -1,10 +1,6 @@
 -- Neovide
--- vim.o.guifont = "CaskaydiaCove Nerd Font:h13:b"
 -- vim.g.neovide_refresh_rate_idle = 5 -- This might not have an effect on every platform (e.g. Wayland). 
 -- vim.g.neovide_fullscreen = false
--- vim.o.guifont = "JetBrainsMono Nerd Font:h12:b"
--- vim.o.guifont = "FiraCode Nerd Font:h15:b"
-vim.o.guifont = "BlexMono Nerd Font Mono:h16:b"
 -- vim.g.neovide_hide_mouse_when_typing = true
 vim.g.neovide_refresh_rate = 165
 vim.g.neovide_cursor_vfx_mode = "ripple"
@@ -13,6 +9,10 @@ vim.g.neovide_cursor_animate_in_insert_mode = true
 vim.g.neovide_cursor_vfx_particle_lifetime = 5.0
 vim.g.neovide_cursor_vfx_particle_density = 14.0
 vim.g.neovide_cursor_vfx_particle_speed = 12.0
+-- vim.o.guifont = "CaskaydiaCove Nerd Font:h13:b"
+-- vim.o.guifont = "JetBrainsMono Nerd Font:h12:b"
+vim.o.guifont = "FiraCode Nerd Font:h15:b"
+-- vim.o.guifont = "BlexMono Nerd Font Mono:h16:b"
 
 -- vim options
 vim.opt.shiftwidth = 2
@@ -24,11 +24,12 @@ vim.opt.guicursor = 'n:ver100' --  set cursor of normal mode as beam, change the
 vim.opt.ruler = true -- show line,col at the cursor pos
 vim.opt.relativenumber = true
 vim.opt.number = true
-vim.opt.cursorline = true -- Show a line where the current cursor is
-vim.opt.signcolumn = 'yes' -- Show sign column as first column
+vim.opt.cursorline = true -- show a line where the current cursor is
+vim.opt.signcolumn = 'yes' -- show sign column as first column
 vim.opt.wrap = true -- wrap long lines
 vim.opt.breakindent = true -- start wrapped lines indented
 vim.opt.linebreak = true -- do not break words on line wrap
+vim.opt.undofile = true -- unlimited undos
 
 -- general
 lvim.log.level = "info"
@@ -52,7 +53,7 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- lvim.builtin.which_key.mappings["W"] = { "<cmd>noautocmd w<cr>", "Save without formatting" }
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 
-lvim.colorscheme = 'oxocarbon' -- 'oh-lucy' and 'oh-lucy-evening'
+lvim.colorscheme = 'catppuccin' -- 'oh-lucy' and 'oh-lucy-evening'
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.terminal.active = true
@@ -133,7 +134,7 @@ require'lspconfig'.clojure_lsp.setup {
     filetypes = {"clojure", "edn"}
 }
 require'lspconfig'.elixirls.setup {
-    cmd = {"/home/redyf/elixir/lol/language_server.sh"},
+    cmd = {"/home/redyf/elixir/elixir_sh/language_server.sh"},
     filetypes = {"elixir", "eelixir", "heex", "surface"}
 }
 
@@ -146,13 +147,13 @@ dap.configurations.elixir = {
         taskArgs = {"--trace"},
         request = "launch",
         startApps = true, -- for Phoenix projects
-        projectDir = "${workspaceFolder}",
+        projectDir = {"/home/redyf/elixir/"},
         requireFiles = {"test/**/test_helper.exs", "test/**/*_test.exs"}
     }
 }
 dap.adapters.mix_task = {
     type = 'executable',
-    command = '/home/redyf/elixir/lol/debugger.sh', -- debugger.bat for windows
+    command = '/home/redyf/elixir/elixir_sh/debugger.sh', -- debugger.bat for windows
     args = {}
 }
 
@@ -197,69 +198,132 @@ dap.adapters.python = {
 }
 
 lvim.plugins = {
-
-    {"catppuccin/nvim", name = "catppuccin"}, {"norcalli/nvim-colorizer.lua"},
-
-    {"andweeb/presence.nvim"}, {"mfussenegger/nvim-dap-python"},
-
-    {'ThePrimeagen/vim-be-good'}, {'nyoom-engineering/oxocarbon.nvim'},
-    {'Yazeed1s/oh-lucy.nvim'}, {'Olical/conjure'}, {'tpope/vim-dispatch'},
-    {'clojure-vim/vim-jack-in'}, {'radenling/vim-dispatch-neovim'}
-
+    -- Themes
+    {"catppuccin/nvim", name = "catppuccin"},
+    {'nyoom-engineering/oxocarbon.nvim'}, {'Yazeed1s/oh-lucy.nvim'}, -- Dap
+    {"mfussenegger/nvim-dap-python"}, -- Other tools
+    {"norcalli/nvim-colorizer.lua"}, {"andweeb/presence.nvim"},
+    {'Olical/conjure'}, {"Olical/aniseed"}, {'tpope/vim-dispatch'},
+    {'clojure-vim/vim-jack-in'}, {'radenling/vim-dispatch-neovim'}, -- Fun
+    {'ThePrimeagen/vim-be-good'}
 }
 
 require("presence"):setup({
     file_assets = {
+        c = {
+            "C",
+            "https://raw.githubusercontent.com/leonardssh/vscord/main/assets/icons/c.png"
+        },
+        cpp = {
+            "CPP",
+            "https://raw.githubusercontent.com/leonardssh/vscord/main/assets/icons/cpp.png"
+        },
+        rust = {
+            "Rust",
+            "https://raw.githubusercontent.com/leonardssh/vscord/main/assets/icons/rust.png"
+        },
         html = {
             "HTML",
-            "https://icon-library.com/images/html5-icon/html5-icon-13.jpg"
+            "https://raw.githubusercontent.com/leonardssh/vscord/main/assets/icons/html.png"
         },
-        css = {"CSS", "https://logospng.org/download/css-3/logo-css-3-2048.png"},
-        scss = {"Sass", "https://avatars.githubusercontent.com/u/70907734?v=4"},
-        tailwind = {
+        css = {
+            "CSS",
+            "https://raw.githubusercontent.com/leonardssh/vscord/main/assets/icons/css.png"
+        },
+        scss = {
+            "Sass",
+            "https://raw.githubusercontent.com/leonardssh/vscord/main/assets/icons/scss.png"
+        },
+        ["tailwind.config.js"] = {
             "Tailwind", "https://avatars.githubusercontent.com/u/70907734?v=4"
         },
         js = {
             "JavaScript",
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Unofficial_JavaScript_logo_2.svg/2048px-Unofficial_JavaScript_logo_2.svg.png"
+            "https://raw.githubusercontent.com/leonardssh/vscord/main/assets/icons/js.png"
+        },
+        ts = {
+            "TypeScript",
+            "https://raw.githubusercontent.com/leonardssh/vscord/main/assets/icons/ts.png"
         },
         jsx = {
             "React",
-            "https://cdn.kinandcarta.com/-/media-assets/images/kincarta/insights/2022/02/react-native/react_hero.png?as=0&iar=0&w=992&rev=61e1dad3af7e465e9544cf8490237772&extension=webp&hash=02C6CCE2CDDAD0216D16A5E26835691F"
+            "https://raw.githubusercontent.com/leonardssh/vscord/main/assets/icons/jsx.png"
         },
         tsx = {
             "React",
-            "https://cdn.kinandcarta.com/-/media-assets/images/kincarta/insights/2022/02/react-native/react_hero.png?as=0&iar=0&w=992&rev=61e1dad3af7e465e9544cf8490237772&extension=webp&hash=02C6CCE2CDDAD0216D16A5E26835691F"
+            "https://raw.githubusercontent.com/leonardssh/vscord/main/assets/icons/tsx.png"
         },
-        go = {"Go", "https://avatars.githubusercontent.com/u/70907734?v=4"},
-        lua = {"Lua", "https://blog.oat.zone/content/images/2022/04/lua.png"},
+        npm = {
+            "NPM",
+            "https://raw.githubusercontent.com/leonardssh/vscord/main/assets/icons/npm.png"
+        },
+        debugging = {
+            "Debugging",
+            "https://github.com/leonardssh/vscord/blob/main/assets/icons/debugging.png?raw=true"
+        },
+        docker = {
+            "Docker",
+            "https://raw.githubusercontent.com/leonardssh/vscord/main/assets/icons/docker.png"
+        },
+        cl = {"Common Lisp", "lisp"},
+        clj = {
+            "Clojure",
+            "https://raw.githubusercontent.com/leonardssh/vscord/main/assets/icons/clojure.png"
+        },
+        cljs = {"ClojureScript", "clojurescript"},
+        ex = {
+            "Elixir",
+            "https://github.com/leonardssh/vscord/blob/main/assets/icons/elixir.png"
+        },
+        exs = {
+            "Elixir",
+            "https://raw.githubusercontent.com/leonardssh/vscord/main/assets/icons/elixir.png"
+        },
+        go = {
+            "Go",
+            "https://raw.githubusercontent.com/leonardssh/vscord/main/assets/icons/go.png"
+        },
+        lua = {
+            "Lua",
+            "https://raw.githubusercontent.com/leonardssh/vscord/main/assets/icons/lua.png"
+        },
         py = {
             "Python",
-            "https://ih1.redbubble.net/image.1065285617.2173/flat,750x,075,f-pad,750x1000,f8f8f8.u1.jpg"
+            "https://raw.githubusercontent.com/leonardssh/vscord/main/assets/icons/python.png"
         },
         yaml = {"YAML", "https://avatars.githubusercontent.com/u/70907734?v=4"},
         nix = {
             "Nix",
-            "https://camo.githubusercontent.com/8c73ac68e6db84a5c58eef328946ba571a92829b3baaa155b7ca5b3521388cc9/68747470733a2f2f692e696d6775722e636f6d2f367146436c41312e706e67"
+            "https://raw.githubusercontent.com/leonardssh/vscord/main/assets/icons/nix.png"
         },
         md = {
-            "Markdown", "https://avatars.githubusercontent.com/u/70907734?v=4"
+            "Markdown",
+            "https://raw.githubusercontent.com/leonardssh/vscord/main/assets/icons/markdown.png"
         },
-        zsh = {"shell", "https://avatars.githubusercontent.com/u/70907734?v=4"},
+        ["zshrc"] = {
+            "zsh", "https://avatars.githubusercontent.com/u/70907734?v=4"
+        },
         json = {"JSON", "https://avatars.githubusercontent.com/u/70907734?v=4"},
         conf = {
-            "Configuration file",
+            "configuration file",
             "https://avatars.githubusercontent.com/u/70907734?v=4"
         },
         config = {
             "Configuration file",
             "https://avatars.githubusercontent.com/u/70907734?v=4"
         },
-        sql = {"SQL", "https://avatars.githubusercontent.com/u/70907734?v=4"}
+        sql = {
+            "SQL",
+            "https://raw.githubusercontent.com/leonardssh/vscord/main/assets/icons/sql.png"
+        },
+        shell = {
+            "Shell", "https://avatars.githubusercontent.com/u/70907734?v=4"
+        }
     },
     auto_update = true,
     neovim_image_text = "LunarVim",
     -- main_image = "https://static-00.iconduck.com/assets.00/apps-neovim-icon-512x512-w4ecv3uh.png",
+    -- main_image = "https://camo.githubusercontent.com/7ef2897c4de6940f119595f50119a887b538d42d4a0b65a15bd0148e2b6bec5b/68747470733a2f2f692e696d6775722e636f6d2f654e62643975442e706e67",
     main_image = "file",
     log_level = nil,
     client_id = "793271441293967371",
