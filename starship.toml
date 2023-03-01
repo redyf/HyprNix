@@ -64,10 +64,12 @@ $fill\
 [ $battery]\
 (bold bg:yellow fg:black)\
 [█](bold bg:none fg:yellow)
+$username\
+$os\
+$directory\
 [λ ](bold bg:none fg:#86aaec)\
 $singularity\
 $kubernetes\
-$directory\
 $status\
 $character
 """
@@ -77,9 +79,14 @@ symbol = " "
 
 [username]
 show_always = true
-style_user = "bold bg:black fg:white"
+style_user = "bold bg:#1E1E2E fg:blue"
 style_root = "bold bg:black fg:white"
 format = "[$user]($style)"
+
+[os]
+format = "@[($name )]($style)"
+style = "bold fg:#CDD6F4"
+disabled = false
 
 [git_branch]
 symbol = " "
@@ -162,3 +169,4 @@ vicmd_symbol = "[](#ecd3a0)"
 # #be95ff
 # [  ](bold bg:none fg:#86aaec)\
 # [ł ](bold bg:none fg:#86aaec)\
+# [λ ](bold bg:none fg:#86aaec)\
