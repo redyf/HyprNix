@@ -13,6 +13,7 @@ $scripts/tools/dynamic &
 #swww init
 #swww img ~/Pictures/wallpapers/lsd.png &
 hyprpaper &
+#mpvpaper -vs DP-3 ~/Downloads/dna.mp4
 
 #dunst (notifications)
 dunst &
