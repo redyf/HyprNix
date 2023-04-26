@@ -54,7 +54,7 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- lvim.builtin.which_key.mappings["W"] = { "<cmd>noautocmd w<cr>", "Save without formatting" }
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 
-lvim.colorscheme = "tokyodark" -- 'oh-lucy' and 'oh-lucy-evening'
+lvim.colorscheme = "decayce" -- 'oh-lucy' and 'oh-lucy-evening'
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.terminal.active = true
@@ -172,6 +172,13 @@ require("lspconfig").clangd.setup({
 	filetypes = { "c", "cpp", "objc", "objcpp" },
 })
 
+require("lspconfig").dartls.setup({
+	cmd = { "dart", "language-server", "--protocol=lsp" },
+	filetypes = { "dart" },
+})
+
+-- require("flutter-tools").setup({}) -- use defaults
+
 -- local lspconfig = require("lspconfig")
 -- lspconfig.ccls.setup({
 -- 	init_options = {
@@ -254,7 +261,6 @@ lvim.plugins = {
 	{ "catppuccin/nvim", name = "catppuccin" },
 	{ "decaycs/decay.nvim", name = "decay" },
 	{ "tiagovla/tokyodark.nvim" },
-	{ "EdenEast/nightfox.nvim" },
 	{ "Yazeed1s/oh-lucy.nvim" }, -- Dap
 	{ "mfussenegger/nvim-dap-python" }, -- Other tools
 	{ "nvim-neorg/neorg" },
@@ -267,12 +273,20 @@ lvim.plugins = {
 	{ "clojure-vim/vim-jack-in" },
 	{ "radenling/vim-dispatch-neovim" }, -- Fun
 	{ "ThePrimeagen/vim-be-good" },
+	-- {
+	-- 	"akinsho/flutter-tools.nvim",
+	-- 	lazy = false,
+	-- 	dependencies = {
+	-- 		"nvim-lua/plenary.nvim",
+	-- 		"stevearc/dressing.nvim", -- optional for vim.ui.select
+	-- 	},
+	-- },
 }
 
 require("neorg").setup({
 	load = {
 		["core.defaults"] = {},
-		["core.norg.dirman"] = {
+		["core.dirman"] = {
 			config = {
 				workspaces = { work = "~/notes/work", home = "~/notes/home" },
 			},
