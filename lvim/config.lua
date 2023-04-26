@@ -111,7 +111,7 @@ lvim.lsp.automatic_configuration.skipped_servers = {
 -- end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.offsetEncoding = { "utf-16" }
+capabilities.offsetEncoding = { "utf-8" }
 
 local formatters = require("lvim.lsp.null-ls.formatters")
 formatters.setup({
@@ -124,7 +124,7 @@ formatters.setup({
 		filetypes = { "typescript", "typescriptreact" },
 	},
 	{ command = "alejandra", filetypes = { "nix" } },
-	-- { command = "astyle", filetypes = { "c", "cpp", "objc", "objcpp" } },
+	-- { command = "astyle", filetypes = { "c", "cpp", "objc", "objcpp" }, offsetEncoding = "utf-8" },
 })
 local linters = require("lvim.lsp.null-ls.linters")
 linters.setup({
@@ -149,7 +149,7 @@ linters.setup({
 	},
 	{ command = "selene", filetypes = { "lua" } },
 	{ command = "statix", filetypes = { "nix" } },
-	-- { command = "cpplint", filetypes = { "c", "cpp", "objc", "objcpp" }, offsetEncoding = "utf-16" },
+	-- { command = "cpplint", filetypes = { "c", "cpp", "objc", "objcpp" }, offsetEncoding = "utf-8" },
 })
 
 -- Enable LSP
@@ -172,10 +172,7 @@ require("lspconfig").clangd.setup({
 	filetypes = { "c", "cpp", "objc", "objcpp" },
 })
 
-require("lspconfig").dartls.setup({
-	cmd = { "dart", "language-server", "--protocol=lsp" },
-	filetypes = { "dart" },
-})
+require("lspconfig").dartls.setup({})
 
 -- require("flutter-tools").setup({}) -- use defaults
 
