@@ -10,7 +10,8 @@ vim.g.neovide_cursor_vfx_particle_lifetime = 5.0
 vim.g.neovide_cursor_vfx_particle_density = 14.0
 vim.g.neovide_cursor_vfx_particle_speed = 12.0
 -- vim.o.guifont = "CaskaydiaCove Nerd Font:h13:b"
-vim.o.guifont = "JetBrainsMono Nerd Font:h12:b"
+vim.o.guifont = "Maple Mono NF:h14:b"
+-- vim.o.guifont = "JetBrainsMono Nerd Font:h12:b"
 -- vim.o.guifont = "FiraCode Nerd Font:h15:b"
 -- vim.o.guifont = "SF Mono:h16:b"
 -- vim.o.guifont = "BlexMono Nerd Font Mono:h16:b"
@@ -54,7 +55,7 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- lvim.builtin.which_key.mappings["W"] = { "<cmd>noautocmd w<cr>", "Save without formatting" }
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 
-lvim.colorscheme = "dark-decay"
+lvim.colorscheme = "oxocarbon"
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.terminal.active = true
@@ -269,6 +270,7 @@ lvim.plugins = {
 	-- Themes
 	{ "catppuccin/nvim", name = "catppuccin" },
 	{ "decaycs/decay.nvim", name = "decay" },
+	{ "nyoom-engineering/oxocarbon.nvim" },
 	{ "tiagovla/tokyodark.nvim" },
 	-- Dap
 	{ "mfussenegger/nvim-dap-python" },
