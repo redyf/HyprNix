@@ -268,14 +268,14 @@ dap.adapters.python = {
 
 lvim.plugins = {
 	-- Themes
-	{ "catppuccin/nvim", name = "catppuccin" },
+	{ "catppuccin/nvim", name = "catppuccin", lazy = true },
 	{ "decaycs/decay.nvim", name = "decay" },
 	{ "nyoom-engineering/oxocarbon.nvim" },
-	{ "tiagovla/tokyodark.nvim" },
+	{ "tiagovla/tokyodark.nvim", lazy = true },
 	-- Dap
 	{ "mfussenegger/nvim-dap-python" },
 	-- Other tools
-	{ "nvim-neorg/neorg" },
+	{ "nvim-neorg/neorg", lazy = true },
 	{ "norcalli/nvim-colorizer.lua" },
 	{ "andweeb/presence.nvim" },
 	{ "sindrets/diffview.nvim", event = "BufRead" },
@@ -294,7 +294,7 @@ lvim.plugins = {
 	-- },
 	--
 	-- Fun
-	{ "ThePrimeagen/vim-be-good" },
+	{ "ThePrimeagen/vim-be-good", lazy = true },
 }
 
 -- Neorg plugin for notes
