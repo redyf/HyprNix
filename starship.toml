@@ -67,7 +67,7 @@ $fill\
 $username\
 $os\
 $directory\
-[ ](bold bg:none fg:#86aaec)\
+[λ ](bold bg:none fg:#86aaec)\
 $singularity\
 $kubernetes\
 $status\
@@ -79,10 +79,12 @@ symbol = " "
 
 [username]
 show_always = true
+style_user = "bold bg:#1E1E2E fg:blue"
 # style_user = "bold bg:#1a1b26 fg:blue"
-style_user = "bold bg:#0d0f18 fg:blue"
+# style_user = "bold bg:#0d0f18 fg:blue"
+# style_user = "bold bg:#101419 fg:blue"
 # style_user = "bold bg:#111111 fg:blue"
-# style_user = "bold bg:#161616 fg:blue"
+# style_user = "bold bg:#161616 fg:purple"
 style_root = "bold bg:black fg:white"
 format = "[$user]($style)"
 

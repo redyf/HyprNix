@@ -5,13 +5,15 @@ config=$HOME/.config/hypr
 scripts=$config/scripts
 
 # Waybar
+pkill waybar
 $scripts/launch_waybar &
 $scripts/tools/dynamic &
 
 # Wallpaper
 swww kill
 swww init
-swww img ~/Pictures/girl_nord.jpg &
+swww img ~/Pictures/programmer.gif
+# swww img ~/.config/hypr/wallpapers/6.jpg
 
 # Dunst (Notifications)
 dunst &
