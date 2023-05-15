@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
 
+# Export variable to make neovide work in wayland
+export WINIT_UNIX_BACKEND=x11 neovide
+
+# LunarVim
 export LUNARVIM_RUNTIME_DIR="${LUNARVIM_RUNTIME_DIR:-"$HOME/.local/share/lunarvim"}"
 export LUNARVIM_CONFIG_DIR="${LUNARVIM_CONFIG_DIR:-"$HOME/.config/lvim"}"
 export LUNARVIM_CACHE_DIR="${LUNARVIM_CACHE_DIR:-"$HOME/.cache/lvim"}"
-
 export LUNARVIM_BASE_DIR="${LUNARVIM_BASE_DIR:-"$HOME/.local/share/lunarvim/lvim"}"
-export WINIT_UNIX_BACKEND=x11 neovide
+# exec neovide -- -u "$LUNARVIM_BASE_DIR/init.lua" "$@"
 
-exec neovide -- -u "$LUNARVIM_BASE_DIR/init.lua" "$@"
+# NvChad
+export NVCHAD_BASE_DIR="${NVCHAD_BASE_DIR:-"$HOME/.config/nvim/"}"
+exec neovide -- -u "$NVCHAD_BASE_DIR/init.lua" "$@"
