@@ -16,7 +16,7 @@ vim.o.guifont = "Maple Mono NF:h14:b"
 -- vim.o.guifont = "SF Mono:h16:b"
 -- vim.o.guifont = "BlexMono Nerd Font Mono:h16:b"
 
--- vim options
+-- Vim options
 vim.opt.shiftwidth = 0
 vim.opt.tabstop = 2
 vim.opt.relativenumber = true
@@ -33,7 +33,7 @@ vim.opt.breakindent = true -- start wrapped lines indented
 vim.opt.linebreak = true -- do not break words on line wrap
 vim.opt.undofile = true -- unlimited undos
 
--- general
+-- General
 lvim.log.level = "info"
 lvim.format_on_save = {
 	enabled = true,
@@ -55,7 +55,7 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- lvim.builtin.which_key.mappings["W"] = { "<cmd>noautocmd w<cr>", "Save without formatting" }
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 
-lvim.colorscheme = "oxocarbon"
+lvim.colorscheme = "catppuccin"
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.terminal.active = true
@@ -214,7 +214,6 @@ dap.adapters.mix_task = {
 }
 
 local dap = require("dap")
-
 dap.adapters.dart = {
 	type = "executable",
 	command = "dart",
@@ -237,18 +236,12 @@ dap.configurations.dart = {
 local dap = require("dap")
 dap.configurations.python = {
 	{
-		-- The first three options are required by nvim-dap
 		type = "python", -- the type here established the link to the adapter definition: `dap.adapters.python`
 		request = "launch",
 		name = "Launch file",
 
-		-- Options below are for debugpy, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings for supported options
-
 		program = "${file}", -- This configuration will launch the current file if used.
 		pythonPath = function()
-			-- debugpy supports launching an application with a different interpreter then the one used to launch debugpy itself.
-			-- The code below looks for a `venv` or `.venv` folder in the current directly and uses the python within.
-			-- You could adapt this - to for example use the `VIRTUAL_ENV` environment variable.
 			local cwd = vim.fn.getcwd()
 			if vim.fn.executable(cwd .. "/venv/bin/python") == 1 then
 				return cwd .. "/venv/bin/python"
@@ -267,11 +260,15 @@ dap.adapters.python = {
 }
 
 lvim.plugins = {
-	-- Themes
-	{ "catppuccin/nvim", name = "catppuccin", lazy = true },
+	-- Colorschemes
+	{ "catppuccin/nvim", name = "catppuccin" },
 	{ "decaycs/decay.nvim", name = "decay" },
 	{ "nyoom-engineering/oxocarbon.nvim" },
 	{ "tiagovla/tokyodark.nvim", lazy = true },
+	{
+		"stevearc/dressing.nvim",
+		opts = {},
+	},
 	-- Dap
 	{ "mfussenegger/nvim-dap-python" },
 	-- Other tools
